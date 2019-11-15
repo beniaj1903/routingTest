@@ -1,3 +1,3 @@
 class Vehicle < ApplicationRecord
-    has_one: driver
+    has_one :driver, dependent: :destroy
 end
