@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  starts_at: 2019-11-15 11:49:26
+  ends_at: 2019-11-15 11:49:26
+  load_type: MyString
+  cities: MyText
+  stops_amount: 1
+  vehicle_id: 1
+  driver_id: 1
+
+two:
+  starts_at: 2019-11-15 11:49:26
+  ends_at: 2019-11-15 11:49:26
+  load_type: MyString
+  cities: MyText
+  stops_amount: 1
+  vehicle_id: 1
+  driver_id: 1

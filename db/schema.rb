@@ -10,7 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_14_195114) do
+ActiveRecord::Schema.define(version: 2019_11_15_150206) do
+
+  create_table "drivers", force: :cascade do |t|
+    t.string "name"
+    t.integer "phone"
+    t.string "email"
+    t.text "cities"
+    t.integer "max_number_of_stops"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vehicle_id"
+    t.index ["vehicle_id"], name: "index_drivers_on_vehicle_id"
+  end
+
+  create_table "routes", force: :cascade do |t|
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.string "load_type"
+    t.text "cities"
+    t.integer "stops_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vehicle_id"
+    t.integer "driver_id"
+    t.index ["driver_id"], name: "index_routes_on_driver_id"
+    t.index ["vehicle_id"], name: "index_routes_on_vehicle_id"
+  end
 
   create_table "tests", force: :cascade do |t|
     t.string "name"
@@ -18,6 +44,15 @@ ActiveRecord::Schema.define(version: 2019_11_14_195114) do
     t.integer "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicles", force: :cascade do |t|
+    t.string "load_type"
+    t.integer "capacity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "driver_id"
+    t.index ["driver_id"], name: "index_vehicles_on_driver_id"
   end
 
 end
