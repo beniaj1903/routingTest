@@ -1,6 +1,24 @@
 class RoutesController < ActionController::Base
     def index #get routes
+        @assignations = params[:assignations]
         render "index"
+    end
+
+    def create
+        Driver.create(params[:driver])
+        redirect_back fallback_location: @post
+    end
+    def delete_route
+        Driver.delete(params[:driver])
+        redirect_back fallback_location: @post
+    end
+    def delete_driver
+        Driver.delete(params[:driver])
+        redirect_back fallback_location: @post
+    end
+    def delete_vehicle
+        Driver.delete(params[:driver])
+        redirect_back fallback_location: @post
     end
 
     def assign
@@ -11,7 +29,9 @@ class RoutesController < ActionController::Base
         refrigerated_vehicles = Vehicle.where(load_type: 'refrigerated')
         general_driver = Driver.where(vehicle: general_vehicles)
         refrigerated_drivers = Driver.where(load_type: 'refrigerated')
-
+        Assignation.delete_all
+        Vehicle.update_all(available_at: "2019-11-15 03:00:00")
+        Driver.update_all(available_at: "2019-11-15 03:00:00")
         # Order by important parameters
         # general_routes.order(:starts_at, :load_sum, :stops_amount)
         # general_dirvers.order(:available_at, :capacity)
@@ -32,7 +52,6 @@ class RoutesController < ActionController::Base
                         vehicle.available_at = route.ends_at
                         driver.save
                         vehicle.save
-                        assignations.push({driver: driver,vehicle: vehicle,route: route})
                         p '==============NOVEHICLEID============'
                         p '===================================='
                         p '===================================='
@@ -44,6 +63,7 @@ class RoutesController < ActionController::Base
                         p route
                         p '===================================='
                         p '===================================='
+                        Assignation.create(route: route, driver: driver, vehicle: vehicle)
                         break
                     elsif driver.vehicle.capacity >= route.load_sum && driver.vehicle.load_type == 'general'
                         route.vehicle_id = driver.vehicle_id
@@ -53,7 +73,6 @@ class RoutesController < ActionController::Base
                         driver.vehicle.available_at = route.ends_at
                         driver.save
                         driver.vehicle.save
-                        assignations.push({driver: driver,vehicle: driver.vehicle,route: route})
                         p '===================================='
                         p '===================================='
                         p 'ASIGNA DRIVER'
@@ -64,6 +83,7 @@ class RoutesController < ActionController::Base
                         p route
                         p '===================================='
                         p '===================================='
+                        Assignation.create(route: route, driver: driver, vehicle: driver.vehicle)
                         break
                     end
                 end
@@ -83,7 +103,6 @@ class RoutesController < ActionController::Base
                         vehicle.available_at = route.ends_at
                         driver.save
                         vehicle.save
-                        assignations.push({driver: driver,vehicle: vehicle,route: route})
                         p '==============NOVEHICLEID============'
                         p '===================================='
                         p '===================================='
@@ -95,6 +114,7 @@ class RoutesController < ActionController::Base
                         p route
                         p '===================================='
                         p '===================================='
+                        Assignation.create(route: route, driver: driver, vehicle: vehicle)
                         break
                     elsif driver.vehicle.capacity >= route.load_sum && driver.vehicle.load_type == 'refrigerated'
                         route.vehicle_id = driver.vehicle_id
@@ -104,7 +124,6 @@ class RoutesController < ActionController::Base
                         driver.vehicle.available_at = route.ends_at
                         driver.save
                         driver.vehicle.save
-                        assignations.push({driver: driver,vehicle: driver.vehicle,route: route})
                         p '===================================='
                         p '===================================='
                         p 'ASIGNA DRIVER'
@@ -115,13 +134,20 @@ class RoutesController < ActionController::Base
                         p route
                         p '===================================='
                         p '===================================='
+                        Assignation.create(route: route, driver: driver, vehicle: driver.vehicle)
                         break
                     end
                 end
             end            
         end
-        render json: {
-            assignations: assignations,
-          }
+        p '===================================='
+        p '===================================='
+        p Assignation.all
+        p '===================================='
+        p '===================================='
+        redirect_back fallback_location: @post
+        # json: {
+        #     assignations: assignations,
+        #   }
     end
 end
