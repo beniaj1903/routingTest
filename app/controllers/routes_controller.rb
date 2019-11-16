@@ -1,23 +1,18 @@
 class RoutesController < ActionController::Base
     def index #get routes
         @assignations = params[:assignations]
+        @driver = Driver.new
         render "index"
     end
 
     def create
-        Driver.create(params[:driver])
+        Driver.create(params[:route])
         redirect_back fallback_location: @post
     end
-    def delete_route
-        Driver.delete(params[:driver])
-        redirect_back fallback_location: @post
-    end
-    def delete_driver
-        Driver.delete(params[:driver])
-        redirect_back fallback_location: @post
-    end
-    def delete_vehicle
-        Driver.delete(params[:driver])
+    
+    def delete
+        Assignation.delete_all
+        Route.find(params[:route_id]).destroy
         redirect_back fallback_location: @post
     end
 

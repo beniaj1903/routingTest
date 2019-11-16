@@ -19,11 +19,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="text" id="row-name" name="row-name" value=""></td>
-                    <td><input type="email" id="row-email" name="row-email" value=""></td>
-                    <td><input type="tel" id="row-phone" name="row-phone" pattern="[0-9]{1}-[0-9]{2}-[0-9]{2}-[0-9]{4}"></td>
-                    <td><input type="text" id="row-vehicle" name="row-vehicle" value=""></td>
-                    <td><select size="1" id="row-cities" name="row-">
+                    <td><input type="text" id="new-driver-name" name="new-driver-name" value=""></td>
+                    <td><input type="email" id="new-driver-email" name="new-driver-email" value=""></td>
+                    <td><input type="tel" id="new-driver-phone" name="new-driver-phone" pattern="[0-9]{1}-[0-9]{2}-[0-9]{2}-[0-9]{4}"></td>
+                    <td><input type="text" id="new-driver-vehicle" name="new-driver-vehicle" value=""></td>
+                    <td><select size="1" id="new-driver-cities" name="new-driver-">
                         <option value="Santiago Centro" selected="selected"> 
                             Santiago Centro
                         </option>
@@ -120,8 +120,9 @@
                         <option value="Vitacura"> 
                             Vitacura
                         </select></td>
-                    <td><input type="number" id="row-max-stops" name="row-max-stops" value=""></td>
-                    <td><%= button_to "Crear", { action: "create" }, form: { "data-type" => "json" } %></td>
+                    <td><%= text_field(:driver, :name, size: 20) %></td>
+                    <td><p><%= @driver[:name] %></p></td>
+                    <td><%= button_to "Crear", {:controller => "routes", :action => "create_driver", :name => @driver[:name] } %></td>
                 </tr>
                 <% Driver.all.each do |driver| %>
                     <tr>
@@ -137,7 +138,7 @@
                         </td>
                         <td><span><%= driver.cities %></span></td>
                         <td><span><%= driver.max_number_of_stops %></span></td>
-                        <td><%= button_to "Eliminar", { action: "delete_driver" }, form: { "data-type" => "json" } %></td>
+                        <td><%= button_to "Eliminar", {:controller => "routes", :action => "delete_driver", :driver_id => driver.id }%></td>
                     </tr>
                 <% end %>
             </tbody>
@@ -156,9 +157,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="text" id="row-starts_at" name="row-starts_at" value=""></td>
-                    <td><input type="text" id="row-ends_at" name="row-ends_at" value=""></td>
-                    <td><select size="1" id="row-load_types" name="row-load_types">
+                    <td><input type="text" id="new-route-starts_at" name="new-route-starts_at" value=""></td>
+                    <td><input type="text" id="new-route-ends_at" name="new-route-ends_at" value=""></td>
+                    <td><select size="1" id="new-route-load_types" name="new-route-load_types">
                         <option value="general" selected="selected"> 
                             General
                             </option>
@@ -166,7 +167,7 @@
                             Refrigada
                             </option>
                         </select></td>
-                    <td><select size="1" id="row-cities" name="row-">
+                    <td><select size="1" id="new-route-cities" name="new-route-">
                         <option value="Santiago Centro" selected="selected"> 
                             Santiago Centro
                         </option>
@@ -263,9 +264,9 @@
                         <option value="Vitacura"> 
                             Vitacura
                         </select></td>
-                    <td><input type="number" id="row-max-stops" name="row-max-stops" value=""></td>
-                    <td><input type="number" id="row-load-sum" name="row-load-sum" value=""></td>
-                    <td><%= button_to "Crear", { action: "create" }, form: { "data-type" => "json" } %></td>
+                    <td><input type="number" id="new-route-max-stops" name="new-route-max-stops" value=""></td>
+                    <td><input type="number" id="new-route-load-sum" name="new-route-load-sum" value=""></td>
+                    <td><%= button_to "Crear", { action: "create_route" }, form: { "data-type" => "json" } %></td>
                 </tr>
                 <% Route.all.each do |route| %>
                     <tr>
@@ -275,7 +276,7 @@
                         <td><span><%= route.cities %></span></td>
                         <td><span><%= route.load_sum %></span></td>
                         <td><span><%= route.stops_amount %></span></td>
-                        <td><%= button_to "Eliminar", { action: "delete_route" }, form: { "data-type" => "json" } %></td>
+                        <td><%= button_to "Eliminar", {:controller => "routes", :action => "delete_route", :route_id => route.id }%></td>
                     </tr>
                 <% end %>
             </tbody>
@@ -292,9 +293,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="numnber" id="row-capacity" name="row-capacity" value=""></td>
-                    <td><input type="text" id="row-driver" name="row-driver" value=""></td>
-                    <td><select size="1" id="row-load-types" name="row-load-types">
+                    <td><input type="numnber" id="new-vehicle-capacity" name="new-vehicle-capacity" value=""></td>
+                    <td><input type="text" id="new-vehicle-driver" name="new-vehicle-driver" value=""></td>
+                    <td><select size="1" id="new-vehicle-load-types" name="new-vehicle-load-types">
                     <option value="general" selected="selected"> 
                         General
                         </option>
@@ -302,7 +303,7 @@
                         Refrigada
                         </option>
                     </select></td>
-                    <td><%= button_to "Crear", { action: "create" }, form: { "data-type" => "json" } %></td>
+                    <td><%= button_to "Crear", { action: "create_vehicle" }, form: { "data-type" => "json" } %></td>
                 </tr>
                 <% Vehicle.all.each do |vehicle| %>
                     <tr>
@@ -315,7 +316,7 @@
                         <% end %>
                         </td>
                         <td><span><%= vehicle.load_type %></span></td>
-                        <td><%= button_to "Eliminar", { action: "delete_vehicle" }, form: { "data-type" => "json" } %></td>
+                        <td><%= button_to "Eliminar", {:controller => "routes", :action => "delete_vehicle", :vehicle_id => vehicle.id }%></td>
                     </tr>
                 <% end %>
             </tbody>
