@@ -12,10 +12,13 @@
 
 ActiveRecord::Schema.define(version: 2019_11_16_223553) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "assignations", force: :cascade do |t|
-    t.integer "route_id"
-    t.integer "driver_id"
-    t.integer "vehicle_id"
+    t.bigint "route_id"
+    t.bigint "driver_id"
+    t.bigint "vehicle_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["driver_id"], name: "index_assignations_on_driver_id"
@@ -31,7 +34,7 @@ ActiveRecord::Schema.define(version: 2019_11_16_223553) do
     t.integer "max_number_of_stops"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "vehicle_id"
+    t.bigint "vehicle_id"
     t.datetime "available_at"
     t.index ["vehicle_id"], name: "index_drivers_on_vehicle_id"
   end
@@ -44,8 +47,8 @@ ActiveRecord::Schema.define(version: 2019_11_16_223553) do
     t.integer "stops_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "vehicle_id"
-    t.integer "driver_id"
+    t.bigint "vehicle_id"
+    t.bigint "driver_id"
     t.integer "load_sum"
     t.index ["driver_id"], name: "index_routes_on_driver_id"
     t.index ["vehicle_id"], name: "index_routes_on_vehicle_id"
@@ -64,10 +67,17 @@ ActiveRecord::Schema.define(version: 2019_11_16_223553) do
     t.integer "capacity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "driver_id"
+    t.bigint "driver_id"
     t.datetime "available_at"
     t.string "name"
     t.index ["driver_id"], name: "index_vehicles_on_driver_id"
   end
 
+  add_foreign_key "assignations", "drivers"
+  add_foreign_key "assignations", "routes"
+  add_foreign_key "assignations", "vehicles"
+  add_foreign_key "drivers", "vehicles"
+  add_foreign_key "routes", "drivers"
+  add_foreign_key "routes", "vehicles"
+  add_foreign_key "vehicles", "drivers"
 end
