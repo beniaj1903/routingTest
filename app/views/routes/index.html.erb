@@ -10,9 +10,10 @@
   </head>
 
     <body>
+    <h1>Esta página permite asignar diariamente rutas a conductores y vehículos ingresados, en la región Metropolitana de Chile</h1>
         <div class="row">
-            <div class="col s7">
-                <h1>Conductores</h1>
+            <div class="col s6">
+                <h3>Conductores</h3>
                 <table id="drivers-table" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -22,6 +23,7 @@
                             <th>Vehiculo Particular</th>
                             <th>Comunas</th>
                             <th>Máximo de Paradas</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,7 +77,7 @@
                                 { :multiple => true }
                                 ) %></td>
                                 <td><%= f.number_field :max_number_of_stops %></td>                                 
-                                <td><%= f.submit "Create" %></td>
+                                <td><%= f.submit "Crear" %></td>
                             <% end %>
                         </tr>
                         <% Driver.all.order(:name).each do |driver| %>
@@ -97,7 +99,7 @@
                 </table>
             </div>
             <div class="col s5">
-                <h1>Vehículos</h1>
+                <h3>Vehículos</h3>
                 <table id="vehicle-table" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -105,6 +107,7 @@
                             <th>Capacidad</th>
                             <th>Tipo de Carga</th>
                             <th>Conductor</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,7 +125,7 @@
                                         <%= content_tag(:option, c.name, value: c.id) %>
                                     <% end %>
                                 <% end %></td>                             
-                                <td><%= f.submit "Create" %></td>
+                                <td><%= f.submit "Crear" %></td>
                             <% end %></tr>
                         </tr>
                             <% Vehicle.all.order(:name).each do |vehicle| %>
@@ -143,8 +146,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col s7">
-                <h1>Rutas del Día</h1>
+            <div class="col s6">
+                <h3>Rutas del Día</h3>
                 <table id="routes-table" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -154,6 +157,7 @@
                             <th>Comunas</th>
                             <th>Nº de Paradas</th>
                             <th>Carga Total</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -205,7 +209,7 @@
                                 ) %></td>                              
                                 <td><%= f.number_field :stops_amount %></td>
                                 <td><%= f.number_field :load_sum %></td>
-                                <td><%= f.submit "Create" %></td>
+                                <td><%= f.submit "Crear" %></td>
                             <% end %></tr>
                         </tr>
                         <% Route.all.order(:starts_at).each do |route| %>
@@ -223,7 +227,7 @@
                 </table>
             </div>
             <div class="col s5">
-                <h1>Rutas Asignadas</h1>
+                <h3>Rutas Asignadas</h3>
                 <div class="row">
                     <div class="col s4">
                         <%= button_to 'Asignar Rutas', { :controller => "routes", :action => "assign" } , method: :get  %>
@@ -256,7 +260,8 @@
                     </table>
                 </div>
                 <div class="row">
-
+                <% if Assignation.all.count > 0 %>
+                    <h4>Rutas sin asignar, no existe combinación conductor-vehículo para cubrirlas</h4>
                     <table id="routes-table" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -268,7 +273,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                <h4>Rutas sin asignar, no existe combinación conductor-vehículo para cubrirlas</h4>
                             <% Route.where.not(id: Assignation.all.map(&:route_id)).each do |route| %>
                                 <tr>
                                 <td><span><%= route.starts_at %></span></td>
@@ -280,6 +284,7 @@
                             <% end %>
                         </tbody>
                     </table>
+                <% end %>
                 </div>
             </div>
         </div>
