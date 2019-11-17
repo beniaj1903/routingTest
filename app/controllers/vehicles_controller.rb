@@ -18,7 +18,12 @@ class VehiclesController < ActionController::Base
     def delete
         Assignation.delete_all
         vehicle = Vehicle.find(params[:vehicle_id])
-        vehicle.destroy
+        if !vehicle.driver_id.nil?
+            driver = Driver.find(vehicle.driver_id)
+            driver.destroy
+        else
+            vehicle.destroy
+        end
         redirect_back fallback_location: @post
     end
 end

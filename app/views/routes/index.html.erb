@@ -2,239 +2,260 @@
 <html>
   <head>
     <title>Sistema de Asignación de Rutas</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-        <h1>Conductores</h1>
-        <table id="drivers-table" class="display" style="width:50%">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
-                    <th>Vehiculo Particular</th>
-                    <th>Comunas</th>
-                    <th>Máximo de Paradas</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="row">
+            <div class="col s7">
+                <h1>Conductores</h1>
+                <table id="drivers-table" class="display" style="width:100%">
+                    <thead>
                         <tr>
-                        <%= form_for :driver, :url => 'drivers/create' do |f| %>
-                        <td><%= f.text_field :name %></td>
-                        <td><%= f.email_field :email %></td>
-                        <td><%= f.telephone_field :phone %></td>
-                        <td><%= f.select(:vehicle_id) do %>
-                            <%= content_tag(:option, 'Sin vehículo', value: nil) %>
-                            <% Vehicle.all.each do |c| %>
-                                <%= content_tag(:option, c.name, value: c.id) %>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Telefono</th>
+                            <th>Vehiculo Particular</th>
+                            <th>Comunas</th>
+                            <th>Máximo de Paradas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <%= form_for :driver, :url => 'drivers/create' do |f| %>
+                                <td><%= f.text_field :name %></td>
+                                <td><%= f.email_field :email %></td>
+                                <td><%= f.telephone_field :phone %></td>
+                                <td><%= f.select(:vehicle_id) do %>
+                                    <%= content_tag(:option, 'Sin vehículo', value: nil) %>
+                                    <% Vehicle.all.each do |c| %>
+                                        <%= content_tag(:option, c.name, value: c.id) %>
+                                    <% end %>
+                                <% end %></td>
+                                <td>
+                                <%= f.select(:cities, [
+                                ['Santiago Centro', 'Santiago Centro'],
+                                ['Cerrillos', 'Cerrillos'],
+                                ['Cerro Navia', 'Cerro Navia'],
+                                ['Conchalí', 'Conchalí'],
+                                ['El Bosque', 'El Bosque'],
+                                ['Estación Central', 'Estación Central'],
+                                ['Huechuraba', 'Huechuraba'],
+                                ['Independencia', 'Independencia'],
+                                ['La Cisterna', 'La Cisterna'],
+                                ['La Florida', 'La Florida'],
+                                ['La Granja', 'La Granja'],
+                                ['La Pintana', 'La Pintana'],
+                                ['La Reina', 'La Reina'],
+                                ['Las Condes', 'Las Condes'],
+                                ['Lo Barnechea', 'Lo Barnechea'],
+                                ['Las Condes', 'Las Condes'],
+                                ['Lo Espejo', 'Lo Espejo'],
+                                ['Lo Prado', 'Lo Prado'],
+                                ['Macul', 'Macul'],
+                                ['Maipú', 'Maipú'],
+                                ['Ñuñoa', 'Ñuñoa'],
+                                ['Pedro Aguirre Cerda', 'Pedro Aguirre Cerda'],
+                                ['Peñalolén', 'Peñalolén'],
+                                ['Providencia', 'Providencia'],
+                                ['Pudahuel', 'Pudahuel'],
+                                ['Quilicura', 'Quilicura'],
+                                ['Quinta Normal', 'Quinta Normal'],
+                                ['Recoleta', 'Recoleta'],
+                                ['Renca', 'Renca'],
+                                ['San Joaquín', 'San Joaquín'],
+                                ['San Miguel', 'San Miguel'],
+                                ['San Ramón', 'San Ramón'],
+                                ['Vitacura', 'Vitacura']
+                                ],{ :prompt => "Seleccionar Comunas"},
+                                { :multiple => true }
+                                ) %></td>
+                                <td><%= f.number_field :max_number_of_stops %></td>                                 
+                                <td><%= f.submit "Create" %></td>
                             <% end %>
-                        <% end %></td>
-                        <td>
-                        <%= f.select(:cities, [
-                            ['Santiago Centro', 'Santiago Centro'],
-                                  ['Cerrillos', 'Cerrillos'],
-                                  ['Cerro Navia', 'Cerro Navia'],
-                                  ['Conchalí', 'Conchalí'],
-                                  ['El Bosque', 'El Bosque'],
-                                  ['Estación Central', 'Estación Central'],
-                                  ['Huechuraba', 'Huechuraba'],
-                                  ['Independencia', 'Independencia'],
-                                  ['La Cisterna', 'La Cisterna'],
-                                  ['La Florida', 'La Florida'],
-                                  ['La Granja', 'La Granja'],
-                                  ['La Pintana', 'La Pintana'],
-                                  ['La Reina', 'La Reina'],
-                                  ['Las Condes', 'Las Condes'],
-                                  ['Lo Barnechea', 'Lo Barnechea'],
-                                  ['Las Condes', 'Las Condes'],
-                                  ['Lo Espejo', 'Lo Espejo'],
-                                  ['Lo Prado', 'Lo Prado'],
-                                  ['Macul', 'Macul'],
-                                  ['Maipú', 'Maipú'],
-                                  ['Ñuñoa', 'Ñuñoa'],
-                                  ['Pedro Aguirre Cerda', 'Pedro Aguirre Cerda'],
-                                  ['Peñalolén', 'Peñalolén'],
-                                  ['Providencia', 'Providencia'],
-                                  ['Pudahuel', 'Pudahuel'],
-                                  ['Quilicura', 'Quilicura'],
-                                  ['Quinta Normal', 'Quinta Normal'],
-                                  ['Recoleta', 'Recoleta'],
-                                  ['Renca', 'Renca'],
-                                  ['San Joaquín', 'San Joaquín'],
-                                  ['San Miguel', 'San Miguel'],
-                                  ['San Ramón', 'San Ramón'],
-                                  ['Vitacura', 'Vitacura']
-                                 ],{ :prompt => "Seleccionar Comunas"},
-                                   { :multiple => true }
-                                 ) %></td>
-                        <td><%= f.number_field :max_number_of_stops %></td>                                 
-                        <td><%= f.submit "Create" %></td>
-                        <% end %></tr>
-                </tr>
-                <% Driver.all.each do |driver| %>
-                    <tr>
-                        <td><span><%= driver.name %></span></td>
-                        <td><span><%= driver.email %></span></td>
-                        <td><span><%= driver.phone %></span></td>
-                        <td>
-                        <% if driver.vehicle_id.nil? %>
-                        <span>No Particular</span>
-                        <% else %>
-                        <span>Particular</span>
-                        <% end %>
-                        </td>
-                        <td><span><%= driver.cities %></span></td>
-                        <td><span><%= driver.max_number_of_stops %></span></td>
-                        <td><%= button_to "Eliminar", {:controller => "drivers", :action => "delete", :driver_id => driver.id }%></td>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
-        <h1>Rutas del Día</h1>
-        <table id="routes-table" class="display" style="width:50%">
-            <thead>
-                <tr>
-                    <th>Hora de Inicio</th>
-                    <th>Hora de Fin</th>
-                    <th>Tipo de Carga</th>
-                    <th>Comunas</th>
-                    <th>Máximo de Paradas</th>
-                    <th>Carga Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <%= form_for :route, :url => 'routes/create' do |f| %>
-                        <td><%= f.time_field :starts_at %></td>
-                        <td><%= f.time_field :ends_at %></td>
-                        <td><%= f.select(:load_type, 
-                        [['general', 'general'],
-                        ['refrigerada', 'refrigerated']])
-                        %></td>
-                        <td>
-                        <%= f.select(:cities, [
-                            ['Santiago Centro', 'Santiago Centro'],
-                            ['Cerrillos', 'Cerrillos'],
-                            ['Cerro Navia', 'Cerro Navia'],
-                            ['Conchalí', 'Conchalí'],
-                            ['El Bosque', 'El Bosque'],
-                            ['Estación Central', 'Estación Central'],
-                            ['Huechuraba', 'Huechuraba'],
-                            ['Independencia', 'Independencia'],
-                            ['La Cisterna', 'La Cisterna'],
-                            ['La Florida', 'La Florida'],
-                            ['La Granja', 'La Granja'],
-                            ['La Pintana', 'La Pintana'],
-                            ['La Reina', 'La Reina'],
-                            ['Las Condes', 'Las Condes'],
-                            ['Lo Barnechea', 'Lo Barnechea'],
-                            ['Las Condes', 'Las Condes'],
-                            ['Lo Espejo', 'Lo Espejo'],
-                            ['Lo Prado', 'Lo Prado'],
-                            ['Macul', 'Macul'],
-                            ['Maipú', 'Maipú'],
-                            ['Ñuñoa', 'Ñuñoa'],
-                            ['Pedro Aguirre Cerda', 'Pedro Aguirre Cerda'],
-                            ['Peñalolén', 'Peñalolén'],
-                            ['Providencia', 'Providencia'],
-                            ['Pudahuel', 'Pudahuel'],
-                            ['Quilicura', 'Quilicura'],
-                            ['Quinta Normal', 'Quinta Normal'],
-                            ['Recoleta', 'Recoleta'],
-                            ['Renca', 'Renca'],
-                            ['San Joaquín', 'San Joaquín'],
-                            ['San Miguel', 'San Miguel'],
-                            ['San Ramón', 'San Ramón'],
-                            ['Vitacura', 'Vitacura']
-                            ],{ :prompt => "Seleccionar Comunas"},
-                            { :multiple => true }
-                            ) %></td>                              
-                            <td><%= f.number_field :stops_amount %></td>
-                            <td><%= f.number_field :load_sum %></td>
-                            <td><%= f.submit "Create" %></td>
-                            <% end %></tr>
+                        </tr>
+                            <% Driver.all.each do |driver| %>
+                                <tr>
+                                    <td><span><%= driver.name %></span></td>
+                                    <td><span><%= driver.email %></span></td>
+                                    <td><span><%= driver.phone %></span></td>
+                                    <td><% if driver.vehicle_id.nil? %>
+                                        <span>No Particular</span>
+                                    <% else %>
+                                        <span>Particular</span>
+                                    <% end %></td>
+                                    <td><span><%= driver.cities %></span></td>
+                                    <td><span><%= driver.max_number_of_stops %></span></td>
+                                    <td><%= button_to "Eliminar", {:controller => "drivers", :action => "delete", :driver_id => driver.id }%></td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col s5">
+                    <h1>Vehículos</h1>
+                    <table id="vehicle-table" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Capacidad</th>
+                                <th>Tipo de Carga</th>
+                                <th>Conductor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <%= form_for :vehicle, :url => 'vehicles/create' do |f| %>
+                                    <td><%= f.text_field :name %></td>
+                                    <td><%= f.number_field :capacity %></td>
+                                    <td><%= f.select(:load_type, 
+                                    [['general', 'general'],
+                                    ['refrigerada', 'refrigerated']])
+                                    %></td>
+                                    <td><%= f.select(:driver_id) do %>
+                                        <%= content_tag(:option, 'Sin conductor', value: nil) %>
+                                        <% Driver.all.each do |c| %>
+                                            <%= content_tag(:option, c.name, value: c.id) %>
+                                        <% end %>
+                                    <% end %></td>                             
+                                    <td><%= f.submit "Create" %></td>
+                                <% end %></tr>
+                            </tr>
+                                <% Vehicle.all.each do |vehicle| %>
+                                    <tr>
+                                        <td><span><%= vehicle.name %></span></td>
+                                        <td><span><%= vehicle.capacity %></span></td>
+                                        <td><% if vehicle.driver_id.nil? %>
+                                            <span>No Particular</span>
+                                        <% else %>
+                                            <span>Particular</span>
+                                        <% end %></td>
+                                        <td><span><%= vehicle.load_type %></span></td>
+                                        <td><%= button_to "Eliminar", {:controller => "vehicles", :action => "delete", :vehicle_id => vehicle.id }%></td>
+                                    </tr>
+                                <% end %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s7">
+                    <h1>Rutas del Día</h1>
+                    <table id="routes-table" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Hora de Inicio</th>
+                                <th>Hora de Fin</th>
+                                <th>Tipo de Carga</th>
+                                <th>Comunas</th>
+                                <th>Máximo de Paradas</th>
+                                <th>Carga Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <%= form_for :route, :url => 'routes/create' do |f| %>
+                                    <td><%= f.time_field :starts_at %></td>
+                                    <td><%= f.time_field :ends_at %></td>
+                                    <td><%= f.select(:load_type, 
+                                    [['general', 'general'],
+                                    ['refrigerada', 'refrigerated']])
+                                    %></td>
+                                    <td>
+                                    <%= f.select(:cities, [
+                                    ['Santiago Centro', 'Santiago Centro'],
+                                    ['Cerrillos', 'Cerrillos'],
+                                    ['Cerro Navia', 'Cerro Navia'],
+                                    ['Conchalí', 'Conchalí'],
+                                    ['El Bosque', 'El Bosque'],
+                                    ['Estación Central', 'Estación Central'],
+                                    ['Huechuraba', 'Huechuraba'],
+                                    ['Independencia', 'Independencia'],
+                                    ['La Cisterna', 'La Cisterna'],
+                                    ['La Florida', 'La Florida'],
+                                    ['La Granja', 'La Granja'],
+                                    ['La Pintana', 'La Pintana'],
+                                    ['La Reina', 'La Reina'],
+                                    ['Las Condes', 'Las Condes'],
+                                    ['Lo Barnechea', 'Lo Barnechea'],
+                                    ['Las Condes', 'Las Condes'],
+                                    ['Lo Espejo', 'Lo Espejo'],
+                                    ['Lo Prado', 'Lo Prado'],
+                                    ['Macul', 'Macul'],
+                                    ['Maipú', 'Maipú'],
+                                    ['Ñuñoa', 'Ñuñoa'],
+                                    ['Pedro Aguirre Cerda', 'Pedro Aguirre Cerda'],
+                                    ['Peñalolén', 'Peñalolén'],
+                                    ['Providencia', 'Providencia'],
+                                    ['Pudahuel', 'Pudahuel'],
+                                    ['Quilicura', 'Quilicura'],
+                                    ['Quinta Normal', 'Quinta Normal'],
+                                    ['Recoleta', 'Recoleta'],
+                                    ['Renca', 'Renca'],
+                                    ['San Joaquín', 'San Joaquín'],
+                                    ['San Miguel', 'San Miguel'],
+                                    ['San Ramón', 'San Ramón'],
+                                    ['Vitacura', 'Vitacura']
+                                    ],{ :prompt => "Seleccionar Comunas"},
+                                    { :multiple => true }
+                                    ) %></td>                              
+                                    <td><%= f.number_field :stops_amount %></td>
+                                    <td><%= f.number_field :load_sum %></td>
+                                    <td><%= f.submit "Create" %></td>
+                                <% end %></tr>
                             </tr>
                             <% Route.all.each do |route| %>
                                 <tr>
-                        <td><span><%= route.starts_at %></span></td>
-                        <td><span><%= route.ends_at %></span></td>
-                        <td><span><%= route.load_type %></span></td>
-                        <td><span><%= route.cities %></span></td>
-                        <td><span><%= route.load_sum %></span></td>
-                        <td><span><%= route.stops_amount %></span></td>
-                        <td><%= button_to "Eliminar", {:controller => "routes", :action => "delete", :route_id => route.id }%></td>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
-        <h1>Vehiculos</h1>
-        <table id="vehicle-table" class="display" style="width:50%">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Capacidad</th>
-                    <th>Tipo de Carga</th>
-                    <th>Conductor</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <%= form_for :vehicle, :url => 'vehicles/create' do |f| %>
-                        <td><%= f.text_field :name %></td>
-                        <td><%= f.number_field :capacity %></td>
-                        <td><%= f.select(:load_type, 
-                        [['general', 'general'],
-                        ['refrigerada', 'refrigerated']])
-                        %></td>
-                        <td><%= f.select(:driver_id) do %>
-                            <%= content_tag(:option, 'Sin conductor', value: nil) %>
-                            <% Driver.all.each do |c| %>
-                                <%= content_tag(:option, c.name, value: c.id) %>
+                                    <td><span><%= route.starts_at %></span></td>
+                                    <td><span><%= route.ends_at %></span></td>
+                                    <td><span><%= route.load_type %></span></td>
+                                    <td><span><%= route.cities %></span></td>
+                                    <td><span><%= route.load_sum %></span></td>
+                                    <td><span><%= route.stops_amount %></span></td>
+                                    <td><%= button_to "Eliminar", {:controller => "routes", :action => "delete", :route_id => route.id }%></td>
+                                </tr>
                             <% end %>
-                        <% end %></td>                             
-                        <td><%= f.submit "Create" %></td>
-                    <% end %></tr>
-                </tr>
-                <% Vehicle.all.each do |vehicle| %>
-                    <tr>
-                        <td><span><%= vehicle.name %></span></td>
-                        <td><span><%= vehicle.capacity %></span></td>
-                        <td>
-                        <% if vehicle.driver_id.nil? %>
-                        <span>No Particular</span>
-                        <% else %>
-                        <span>Particular</span>
-                        <% end %>
-                        </td>
-                        <td><span><%= vehicle.load_type %></span></td>
-                        <td><%= button_to "Eliminar", {:controller => "vehicles", :action => "delete", :vehicle_id => vehicle.id }%></td>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
-        <h1>Rutas Asignadas</h1>
-        <table id="routes-table" class="display" style="width:50%">
-            <thead>
-                <tr>
-                    <th>Hora de Inicio</th>
-                    <th>Hora de Fin</th>
-                    <th>Conductor</th>
-                    <th>Vehículo</th>
-                </tr>
-            </thead>
-            <tbody>
-                    
-                    <% Assignation.all.each do |assignation| %>
-                        <tr>
-                            <td><span><%= assignation.route.starts_at %></span></td>
-                            <td><span><%= assignation.route.ends_at %></span></td>
-                            <td><span><%= assignation.driver.name %></span></td>
-                            <td><span><%= assignation.vehicle.name %></span></td>
-                        </tr>
-                    <% end %>
-            </tbody>
-        </table>
-            <a href="/routes/assign">LINK</a>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col s5">
+                    <h1>Rutas Asignadas</h1>
+                    <div class="row">
+                        <div class="col s4">
+                            <%= button_to 'Asignar Rutas', { :controller => "routes", :action => "assign" } , method: :get  %>
+                        </div>
+                        <div class="col s4">
+                            <%= button_to 'Datos de Prueba', { :controller => "routes", :action => "fill_db" } , method: :get  %>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <table id="routes-table" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Hora de Inicio</th>
+                                <th>Hora de Fin</th>
+                                <th>Conductor</th>
+                                <th>Vehículo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <% Assignation.all.each do |assignation| %>
+                                <tr>
+                                    <td><span><%= assignation.route.starts_at %></span></td>
+                                    <td><span><%= assignation.route.ends_at %></span></td>
+                                    <td><span><%= assignation.driver.name %></span></td>
+                                    <td><span><%= assignation.vehicle.name %></span></td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </body>
         </html>
         

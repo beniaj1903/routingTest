@@ -23,6 +23,10 @@ class RoutesController < ActionController::Base
         redirect_back fallback_location: @post
     end
 
+    def fill_db
+        redirect_back fallback_location: @post
+    end
+
     def assign
         # Separate the routes and vehicles/drivers in 2 types
         general_routes = Route.where(load_type: 'general')
