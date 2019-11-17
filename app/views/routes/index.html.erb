@@ -18,111 +18,58 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input type="text" id="new-driver-name" name="new-driver-name" value=""></td>
-                    <td><input type="email" id="new-driver-email" name="new-driver-email" value=""></td>
-                    <td><input type="tel" id="new-driver-phone" name="new-driver-phone" pattern="[0-9]{1}-[0-9]{2}-[0-9]{2}-[0-9]{4}"></td>
-                    <td><input type="text" id="new-driver-vehicle" name="new-driver-vehicle" value=""></td>
-                    <td><select size="1" id="new-driver-cities" name="new-driver-">
-                        <option value="Santiago Centro" selected="selected"> 
-                            Santiago Centro
-                        </option>
-                        <option value="Cerrillos"> 
-                            Cerrillos
-                        </option>
-                        <option value="Cerro Navia"> 
-                            Cerro Navia
-                        </option>
-                        <option value="Conchalí"> 
-                            Conchalí
-                        </option>
-                        <option value="El Bosque"> 
-                            El Bosque
-                        </option>
-                        <option value="Estación Central"> 
-                            Estación Central
-                        </option>
-                        <option value="Huechuraba"> 
-                            Huechuraba
-                        </option>
-                        <option value="Independencia"> 
-                            Independencia
-                        </option>
-                        <option value="La Cisterna"> 
-                            La Cisterna
-                        </option>
-                        <option value="La Florida"> 
-                            La Florida
-                        </option>
-                        <option value="La Granja"> 
-                            La Granja
-                        </option>
-                        <option value="La Pintana"> 
-                            La Pintana
-                        </option>
-                        <option value="La Reina"> 
-                            La Reina
-                        </option>
-                        <option value="Las Condes"> 
-                            Las Condes
-                        </option>
-                        <option value="Lo Barnechea"> 
-                            Lo Barnechea
-                        </option>
-                        <option value="Lo Espejo"> 
-                            Lo Espejo
-                        </option>
-                        <option value="Lo Prado"> 
-                            Lo Prado
-                        </option>
-                        <option value="Macul"> 
-                            Macul
-                        </option>
-                        <option value="Maipú"> 
-                            Maipú
-                        </option>
-                        <option value="Ñuñoa"> 
-                            Ñuñoa
-                        </option>
-                        <option value="Pedro Aguirre Cerda"> 
-                            Pedro Aguirre Cerda
-                        </option>
-                        <option value="Peñalolén"> 
-                            Peñalolén
-                        </option>
-                        <option value="Providencia"> 
-                            Providencia
-                        </option>
-                        <option value="Pudahuel"> 
-                            Pudahuel
-                        </option>
-                        <option value="Quilicura"> 
-                            Quilicura
-                        </option>
-                        <option value="Quinta Normal"> 
-                            Quinta Normal
-                        </option>
-                        <option value="Recoleta"> 
-                            Recoleta
-                        </option>
-                        <option value="Renca"> 
-                            Renca
-                        </option>
-                        <option value="San Joaquín"> 
-                            San Joaquín
-                        </option>
-                        <option value="San Miguel"> 
-                            San Miguel
-                        </option>
-                        <option value="San Ramón"> 
-                            San Ramón
-                        </option>
-                        <option value="Vitacura"> 
-                            Vitacura
-                        </select></td>
-                    <td><%= text_field(:driver, :name, size: 20) %></td>
-                    <td><p><%= @driver[:name] %></p></td>
-                    <td><%= button_to "Crear", {:controller => "routes", :action => "create_driver", :name => @driver[:name] } %></td>
+                        <tr>
+                        <%= form_for :driver, :url => 'drivers/create' do |f| %>
+                        <td><%= f.text_field :name %></td>
+                        <td><%= f.email_field :email %></td>
+                        <td><%= f.telephone_field :phone %></td>
+                        <td><%= f.select(:vehicle_id) do %>
+                            <%= content_tag(:option, 'Sin vehículo', value: nil) %>
+                            <% Vehicle.all.each do |c| %>
+                                <%= content_tag(:option, c.name, value: c.id) %>
+                            <% end %>
+                        <% end %></td>
+                        <td>
+                        <%= f.select(:cities, [
+                            ['Santiago Centro', 'Santiago Centro'],
+                                  ['Cerrillos', 'Cerrillos'],
+                                  ['Cerro Navia', 'Cerro Navia'],
+                                  ['Conchalí', 'Conchalí'],
+                                  ['El Bosque', 'El Bosque'],
+                                  ['Estación Central', 'Estación Central'],
+                                  ['Huechuraba', 'Huechuraba'],
+                                  ['Independencia', 'Independencia'],
+                                  ['La Cisterna', 'La Cisterna'],
+                                  ['La Florida', 'La Florida'],
+                                  ['La Granja', 'La Granja'],
+                                  ['La Pintana', 'La Pintana'],
+                                  ['La Reina', 'La Reina'],
+                                  ['Las Condes', 'Las Condes'],
+                                  ['Lo Barnechea', 'Lo Barnechea'],
+                                  ['Las Condes', 'Las Condes'],
+                                  ['Lo Espejo', 'Lo Espejo'],
+                                  ['Lo Prado', 'Lo Prado'],
+                                  ['Macul', 'Macul'],
+                                  ['Maipú', 'Maipú'],
+                                  ['Ñuñoa', 'Ñuñoa'],
+                                  ['Pedro Aguirre Cerda', 'Pedro Aguirre Cerda'],
+                                  ['Peñalolén', 'Peñalolén'],
+                                  ['Providencia', 'Providencia'],
+                                  ['Pudahuel', 'Pudahuel'],
+                                  ['Quilicura', 'Quilicura'],
+                                  ['Quinta Normal', 'Quinta Normal'],
+                                  ['Recoleta', 'Recoleta'],
+                                  ['Renca', 'Renca'],
+                                  ['San Joaquín', 'San Joaquín'],
+                                  ['San Miguel', 'San Miguel'],
+                                  ['San Ramón', 'San Ramón'],
+                                  ['Vitacura', 'Vitacura']
+                                 ],{ :prompt => "Seleccionar Comunas"},
+                                   { :multiple => true }
+                                 ) %></td>
+                        <td><%= f.number_field :max_number_of_stops %></td>                                 
+                        <td><%= f.submit "Create" %></td>
+                        <% end %></tr>
                 </tr>
                 <% Driver.all.each do |driver| %>
                     <tr>
@@ -130,7 +77,7 @@
                         <td><span><%= driver.email %></span></td>
                         <td><span><%= driver.phone %></span></td>
                         <td>
-                        <% if driver.vehicle.nil? %>
+                        <% if driver.vehicle_id.nil? %>
                         <span>No Particular</span>
                         <% else %>
                         <span>Particular</span>
@@ -138,7 +85,7 @@
                         </td>
                         <td><span><%= driver.cities %></span></td>
                         <td><span><%= driver.max_number_of_stops %></span></td>
-                        <td><%= button_to "Eliminar", {:controller => "routes", :action => "delete_driver", :driver_id => driver.id }%></td>
+                        <td><%= button_to "Eliminar", {:controller => "drivers", :action => "delete", :driver_id => driver.id }%></td>
                     </tr>
                 <% end %>
             </tbody>
@@ -157,126 +104,65 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="text" id="new-route-starts_at" name="new-route-starts_at" value=""></td>
-                    <td><input type="text" id="new-route-ends_at" name="new-route-ends_at" value=""></td>
-                    <td><select size="1" id="new-route-load_types" name="new-route-load_types">
-                        <option value="general" selected="selected"> 
-                            General
-                            </option>
-                            <option value="refrigerated"> 
-                            Refrigada
-                            </option>
-                        </select></td>
-                    <td><select size="1" id="new-route-cities" name="new-route-">
-                        <option value="Santiago Centro" selected="selected"> 
-                            Santiago Centro
-                        </option>
-                        <option value="Cerrillos"> 
-                            Cerrillos
-                        </option>
-                        <option value="Cerro Navia"> 
-                            Cerro Navia
-                        </option>
-                        <option value="Conchalí"> 
-                            Conchalí
-                        </option>
-                        <option value="El Bosque"> 
-                            El Bosque
-                        </option>
-                        <option value="Estación Central"> 
-                            Estación Central
-                        </option>
-                        <option value="Huechuraba"> 
-                            Huechuraba
-                        </option>
-                        <option value="Independencia"> 
-                            Independencia
-                        </option>
-                        <option value="La Cisterna"> 
-                            La Cisterna
-                        </option>
-                        <option value="La Florida"> 
-                            La Florida
-                        </option>
-                        <option value="La Granja"> 
-                            La Granja
-                        </option>
-                        <option value="La Pintana"> 
-                            La Pintana
-                        </option>
-                        <option value="La Reina"> 
-                            La Reina
-                        </option>
-                        <option value="Las Condes"> 
-                            Las Condes
-                        </option>
-                        <option value="Lo Barnechea"> 
-                            Lo Barnechea
-                        </option>
-                        <option value="Lo Espejo"> 
-                            Lo Espejo
-                        </option>
-                        <option value="Lo Prado"> 
-                            Lo Prado
-                        </option>
-                        <option value="Macul"> 
-                            Macul
-                        </option>
-                        <option value="Maipú"> 
-                            Maipú
-                        </option>
-                        <option value="Ñuñoa"> 
-                            Ñuñoa
-                        </option>
-                        <option value="Pedro Aguirre Cerda"> 
-                            Pedro Aguirre Cerda
-                        </option>
-                        <option value="Peñalolén"> 
-                            Peñalolén
-                        </option>
-                        <option value="Providencia"> 
-                            Providencia
-                        </option>
-                        <option value="Pudahuel"> 
-                            Pudahuel
-                        </option>
-                        <option value="Quilicura"> 
-                            Quilicura
-                        </option>
-                        <option value="Quinta Normal"> 
-                            Quinta Normal
-                        </option>
-                        <option value="Recoleta"> 
-                            Recoleta
-                        </option>
-                        <option value="Renca"> 
-                            Renca
-                        </option>
-                        <option value="San Joaquín"> 
-                            San Joaquín
-                        </option>
-                        <option value="San Miguel"> 
-                            San Miguel
-                        </option>
-                        <option value="San Ramón"> 
-                            San Ramón
-                        </option>
-                        <option value="Vitacura"> 
-                            Vitacura
-                        </select></td>
-                    <td><input type="number" id="new-route-max-stops" name="new-route-max-stops" value=""></td>
-                    <td><input type="number" id="new-route-load-sum" name="new-route-load-sum" value=""></td>
-                    <td><%= button_to "Crear", { action: "create_route" }, form: { "data-type" => "json" } %></td>
-                </tr>
-                <% Route.all.each do |route| %>
-                    <tr>
+                    <%= form_for :route, :url => 'routes/create' do |f| %>
+                        <td><%= f.time_field :starts_at %></td>
+                        <td><%= f.time_field :ends_at %></td>
+                        <td><%= f.select(:load_type, 
+                        [['general', 'general'],
+                        ['refrigerada', 'refrigerated']])
+                        %></td>
+                        <td>
+                        <%= f.select(:cities, [
+                            ['Santiago Centro', 'Santiago Centro'],
+                            ['Cerrillos', 'Cerrillos'],
+                            ['Cerro Navia', 'Cerro Navia'],
+                            ['Conchalí', 'Conchalí'],
+                            ['El Bosque', 'El Bosque'],
+                            ['Estación Central', 'Estación Central'],
+                            ['Huechuraba', 'Huechuraba'],
+                            ['Independencia', 'Independencia'],
+                            ['La Cisterna', 'La Cisterna'],
+                            ['La Florida', 'La Florida'],
+                            ['La Granja', 'La Granja'],
+                            ['La Pintana', 'La Pintana'],
+                            ['La Reina', 'La Reina'],
+                            ['Las Condes', 'Las Condes'],
+                            ['Lo Barnechea', 'Lo Barnechea'],
+                            ['Las Condes', 'Las Condes'],
+                            ['Lo Espejo', 'Lo Espejo'],
+                            ['Lo Prado', 'Lo Prado'],
+                            ['Macul', 'Macul'],
+                            ['Maipú', 'Maipú'],
+                            ['Ñuñoa', 'Ñuñoa'],
+                            ['Pedro Aguirre Cerda', 'Pedro Aguirre Cerda'],
+                            ['Peñalolén', 'Peñalolén'],
+                            ['Providencia', 'Providencia'],
+                            ['Pudahuel', 'Pudahuel'],
+                            ['Quilicura', 'Quilicura'],
+                            ['Quinta Normal', 'Quinta Normal'],
+                            ['Recoleta', 'Recoleta'],
+                            ['Renca', 'Renca'],
+                            ['San Joaquín', 'San Joaquín'],
+                            ['San Miguel', 'San Miguel'],
+                            ['San Ramón', 'San Ramón'],
+                            ['Vitacura', 'Vitacura']
+                            ],{ :prompt => "Seleccionar Comunas"},
+                            { :multiple => true }
+                            ) %></td>                              
+                            <td><%= f.number_field :stops_amount %></td>
+                            <td><%= f.number_field :load_sum %></td>
+                            <td><%= f.submit "Create" %></td>
+                            <% end %></tr>
+                            </tr>
+                            <% Route.all.each do |route| %>
+                                <tr>
                         <td><span><%= route.starts_at %></span></td>
                         <td><span><%= route.ends_at %></span></td>
                         <td><span><%= route.load_type %></span></td>
                         <td><span><%= route.cities %></span></td>
                         <td><span><%= route.load_sum %></span></td>
                         <td><span><%= route.stops_amount %></span></td>
-                        <td><%= button_to "Eliminar", {:controller => "routes", :action => "delete_route", :route_id => route.id }%></td>
+                        <td><%= button_to "Eliminar", {:controller => "routes", :action => "delete", :route_id => route.id }%></td>
                     </tr>
                 <% end %>
             </tbody>
@@ -285,38 +171,43 @@
         <table id="vehicle-table" class="display" style="width:50%">
             <thead>
                 <tr>
+                    <th>Nombre</th>
                     <th>Capacidad</th>
-                    <th>Vehículo</th>
-                    <th>Conductor Particular</th>
                     <th>Tipo de Carga</th>
+                    <th>Conductor</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="numnber" id="new-vehicle-capacity" name="new-vehicle-capacity" value=""></td>
-                    <td><input type="text" id="new-vehicle-driver" name="new-vehicle-driver" value=""></td>
-                    <td><select size="1" id="new-vehicle-load-types" name="new-vehicle-load-types">
-                    <option value="general" selected="selected"> 
-                        General
-                        </option>
-                        <option value="refrigerated"> 
-                        Refrigada
-                        </option>
-                    </select></td>
-                    <td><%= button_to "Crear", { action: "create_vehicle" }, form: { "data-type" => "json" } %></td>
+                    <%= form_for :vehicle, :url => 'vehicles/create' do |f| %>
+                        <td><%= f.text_field :name %></td>
+                        <td><%= f.number_field :capacity %></td>
+                        <td><%= f.select(:load_type, 
+                        [['general', 'general'],
+                        ['refrigerada', 'refrigerated']])
+                        %></td>
+                        <td><%= f.select(:driver_id) do %>
+                            <%= content_tag(:option, 'Sin conductor', value: nil) %>
+                            <% Driver.all.each do |c| %>
+                                <%= content_tag(:option, c.name, value: c.id) %>
+                            <% end %>
+                        <% end %></td>                             
+                        <td><%= f.submit "Create" %></td>
+                    <% end %></tr>
                 </tr>
                 <% Vehicle.all.each do |vehicle| %>
                     <tr>
+                        <td><span><%= vehicle.name %></span></td>
                         <td><span><%= vehicle.capacity %></span></td>
                         <td>
-                        <% if vehicle.driver.nil? %>
+                        <% if vehicle.driver_id.nil? %>
                         <span>No Particular</span>
                         <% else %>
                         <span>Particular</span>
                         <% end %>
                         </td>
                         <td><span><%= vehicle.load_type %></span></td>
-                        <td><%= button_to "Eliminar", {:controller => "routes", :action => "delete_vehicle", :vehicle_id => vehicle.id }%></td>
+                        <td><%= button_to "Eliminar", {:controller => "vehicles", :action => "delete", :vehicle_id => vehicle.id }%></td>
                     </tr>
                 <% end %>
             </tbody>
@@ -338,7 +229,7 @@
                             <td><span><%= assignation.route.starts_at %></span></td>
                             <td><span><%= assignation.route.ends_at %></span></td>
                             <td><span><%= assignation.driver.name %></span></td>
-                            <td><span><%= assignation.vehicle.id %></span></td>
+                            <td><span><%= assignation.vehicle.name %></span></td>
                         </tr>
                     <% end %>
             </tbody>

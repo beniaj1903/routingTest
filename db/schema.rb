@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_16_141009) do
+ActiveRecord::Schema.define(version: 2019_11_16_223553) do
 
   create_table "assignations", force: :cascade do |t|
     t.integer "route_id"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2019_11_16_141009) do
     t.datetime "updated_at", null: false
     t.integer "driver_id"
     t.datetime "available_at"
+    t.string "name"
     t.index ["driver_id"], name: "index_vehicles_on_driver_id"
   end
 

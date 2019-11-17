@@ -1,15 +1,22 @@
 class RoutesController < ActionController::Base
+    skip_before_action :verify_authenticity_token, :only => :create
     def index #get routes
         @assignations = params[:assignations]
         @driver = Driver.new
+        @vehicle = Vehicle.new
         render "index"
     end
 
     def create
-        Driver.create(params[:route])
+        params[:route][:cities] = params[:route][:cities].reject!(&:blank?)
+        params[:route][:starts_at] = DateTime.parse(params[:route][:starts_at].to_s)
+        params[:route][:ends_at] = DateTime.parse(params[:route][:ends_at].to_s)
+        route = params[:route]
+        Route.create(starts_at: route[:starts_at], ends_at: route[:ends_at], load_type: route[:load_type], 
+        cities: route[:cities], stops_amount: route[:stops_amount], load_sum: route[:load_sum])
         redirect_back fallback_location: @post
     end
-    
+
     def delete
         Assignation.delete_all
         Route.find(params[:route_id]).destroy
@@ -35,7 +42,7 @@ class RoutesController < ActionController::Base
         available_drivers = []
         assignations = []
         general_routes.each do |route|
-            available_drivers = Driver.where("available_at < ? AND max_number_of_stops <= ?", route.starts_at, route.stops_amount).order(:available_at, :capacity)
+            available_drivers = Driver.where("available_at < ? AND max_number_of_stops >= ?", route.starts_at, route.stops_amount).order(:available_at, :capacity)
             available_drivers.each do |driver|
                 if route.cities & driver.cities == route.cities
                     if driver.vehicle_id.nil? 
@@ -85,7 +92,7 @@ class RoutesController < ActionController::Base
             end            
         end
         refrigerated_routes.each do |route|
-            available_drivers = Driver.where("available_at < ? AND max_number_of_stops <= ?", route.starts_at, route.stops_amount).order(:available_at, :capacity)
+            available_drivers = Driver.where("available_at < ? AND max_number_of_stops >= ?", route.starts_at, route.stops_amount).order(:available_at, :capacity)
             available_drivers.each do |driver|
                 if route.cities & driver.cities == route.cities
 
