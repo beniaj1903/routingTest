@@ -78,7 +78,7 @@
                                 <td><%= f.submit "Create" %></td>
                             <% end %>
                         </tr>
-                            <% Driver.all.each do |driver| %>
+                            <% Driver.all.order(:name).each do |driver| %>
                                 <tr>
                                     <td><span><%= driver.name %></span></td>
                                     <td><span><%= driver.email %></span></td>
@@ -125,7 +125,7 @@
                                     <td><%= f.submit "Create" %></td>
                                 <% end %></tr>
                             </tr>
-                                <% Vehicle.all.each do |vehicle| %>
+                                <% Vehicle.all.order(:name).each do |vehicle| %>
                                     <tr>
                                         <td><span><%= vehicle.name %></span></td>
                                         <td><span><%= vehicle.capacity %></span></td>
@@ -208,7 +208,7 @@
                                     <td><%= f.submit "Create" %></td>
                                 <% end %></tr>
                             </tr>
-                            <% Route.all.each do |route| %>
+                            <% Route.all.order(:starts_at).each do |route| %>
                                 <tr>
                                     <td><span><%= route.starts_at %></span></td>
                                     <td><span><%= route.ends_at %></span></td>
@@ -244,7 +244,7 @@
                         </thead>
                         <tbody>
 
-                            <% Assignation.all.each do |assignation| %>
+                            <% Assignation.all.order(:route_id).each do |assignation| %>
                                 <tr>
                                     <td><span><%= assignation.route.starts_at %></span></td>
                                     <td><span><%= assignation.route.ends_at %></span></td>

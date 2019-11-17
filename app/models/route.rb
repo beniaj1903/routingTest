@@ -12,6 +12,5 @@ class Route < ApplicationRecord
     has_one :driver
     has_one :vehicle
     has_one :assignation, dependent: :destroy
-    before_create :correct_times
 end
 
